@@ -1,6 +1,9 @@
 @tailwind preflight;
 
+@tailwind base;
+
 @tailwind components;
+
 
 a {
   @apply no-underline;

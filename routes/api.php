@@ -17,8 +17,9 @@ Route::get('/ping/{uuid}', 'ApiController@ping')->name('ping');
 Route::post('/ping/{uuid}', 'ApiController@ping')->name('ping');
 Route::post('/api/templates/{slug}', 'Api\TemplateController@store')->name('api.template.create_job');
 
-Route::get('/api/cronjob/{uuid}', 'Api\CronjobController@show')->name('api.cronjob.show');
+//Route::get('/api/cronjob/{uuid}', 'Api\CronjobController@show')->name('api.cronjob.show');
 
+Route::middleware('auth:sanctum')->get('/api/cronjob/{uuid}', 'Api\CronjobController@show')->name('api.cronjob.show');
 // POST job  -- create a new job - returns json of the job
 // POST job/{uuid}  -- update a job - returns json of the job
 // POST job/{uuid}/silence -- silence a job

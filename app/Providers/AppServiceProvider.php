@@ -31,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
         });
         // fix for laravel 5.4 using multibyte strings which breaks on older mysql/mariadb
         Schema::defaultStringLength(191);
+
+      
     }
 
     /**
@@ -43,5 +45,7 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment('local', 'testing')) {
             $this->app->register(DuskServiceProvider::class);
         }
+
+        
     }
 }

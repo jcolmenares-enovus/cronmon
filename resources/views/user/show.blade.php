@@ -16,6 +16,15 @@
 <div class="bg-white shadow p-8 mb-4">
     <div class="text-orange-dark font-light mb-8 bg-orange-lightest -mx-8 -mt-8">
         <h4 class="title text-orange-dark font-light text-2xl p-4 flex justify-between">
+            <span class="flex-1">Access Token</span>
+        </h4>
+    </div>
+    @include('token.partials.index', ['tokens' => $user->tokens])
+</div>
+
+<div class="bg-white shadow p-8 mb-4">
+    <div class="text-orange-dark font-light mb-8 bg-orange-lightest -mx-8 -mt-8">
+        <h4 class="title text-orange-dark font-light text-2xl p-4 flex justify-between">
             <span class="flex-1">Jobs</span>
         </h4>
     </div>

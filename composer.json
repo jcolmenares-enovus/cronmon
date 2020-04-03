@@ -12,12 +12,14 @@
         "doctrine/dbal": "^2.9",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "~6.0",
-        "lorisleiva/laravel-deployer": "^0.3.0",
         "laravel/framework": "^7.0",
         "laravel/horizon": "^4.0",
+        "laravel/sanctum": "^2.1",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "livewire/livewire": "^1.0",
+        "lorisleiva/laravel-deployer": "^0.3.0",
+        "mckenziearts/laravel-notify": "^1.1",
         "ramsey/uuid": "^3.5"
     },
     "require-dev": {

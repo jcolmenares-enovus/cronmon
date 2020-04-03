@@ -12,10 +12,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\JobHasGoneAwol;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Support\Facades\Notification;
+use Laravel\Sanctum\HasApiTokens;
+
 
 class User extends Authenticatable implements CanResetPassword
 {
     use Notifiable;
+    use HasApiTokens;
 
     protected $fillable = [
         'username', 'email', 'password', 'is_admin', 'is_silenced'
@@ -143,7 +146,10 @@ class User extends Authenticatable implements CanResetPassword
             'email' => $email,
             'is_admin' => true,
             'password' => bcrypt($password ? $password : Str::random(32)),
+
         ]);
+
+        $token = $user->createToken('access-personal-token');
 
         if (!$password) {
             $user->sendResetLink();
