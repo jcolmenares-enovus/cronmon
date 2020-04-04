@@ -53,6 +53,7 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof UnauthorizedException && $request->wantsJson()) {
+            
             return Route::respondWithRoute('api.fallback.404');
         }
     

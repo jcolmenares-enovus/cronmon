@@ -17,9 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/ping/{uuid}', 'ApiController@ping')->name('ping');
 Route::post('/ping/{uuid}', 'ApiController@ping')->name('ping');
 Route::post('/api/templates/{slug}', 'Api\TemplateController@store')->name('api.template.create_job');
-
-//Route::get('/api/cronjob/{uuid}', 'Api\CronjobController@show')->name('api.cronjob.show');
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/api/cronjob', 'Api\CronjobController@index')->name('api.cronjob.index');
     Route::get('/api/cronjob/{uuid}', 'Api\CronjobController@show')->name('api.cronjob.show');

@@ -19,9 +19,10 @@ class CronjobController extends Controller
 	public function index()
 	{
 		$user = Auth::user();
-		
+		$cronjobs = $user->getAvailableJobs();
 		return response()->json([
-			'data' => $user->getAvailableJobs(),
+			'count' => $cronjobs->count(), 
+			'data' => $cronjobs,
 		]);
 	}
 
@@ -32,10 +33,11 @@ class CronjobController extends Controller
 		$job = Cronjob::where('uuid', '=', $uuid)->firstOrFail();
 
 		if ($user->id != $job->user_id) {
-			throw new UnauthorizedException('The CronJon do not belongs to current user');
+			throw new UnauthorizedException('The Cronjob do not belongs to current user');
 		}
 
 		return response()->json([
+				'count' => 1,
 				'data' => $job->toArray(),
 			]);
 	}
