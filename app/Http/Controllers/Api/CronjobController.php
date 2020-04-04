@@ -2,22 +2,42 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Team;
 use App\User;
 use App\Cronjob;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Rules\ValidCronExpression;
-use App\Team;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\UnauthorizedException;
 
 class CronjobController extends Controller
 {
+	public function index()
+	{
+		$user = Auth::user();
+		
+		return response()->json([
+			'data' => $user->getAvailableJobs(),
+		]);
+	}
+
+
 	public function show($uuid)
 	{
+		$user = Auth::user();
 		$job = Cronjob::where('uuid', '=', $uuid)->firstOrFail();
 
+		if ($user->id != $job->user_id) {
+			throw new UnauthorizedException('The CronJon do not belongs to current user');
+		}
+
 		return response()->json([
-			'data' => $job->toArray(),
-		]);
+				'data' => $job->toArray(),
+			]);
 	}
 
 	public function update(Request $request)
