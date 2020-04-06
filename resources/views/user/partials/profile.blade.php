@@ -38,13 +38,14 @@
                  <api-key-toggle apikey="{{ $user->api_key }}"></api-key-toggle>
             </p>
         </div>
+        @endif
         <div class="flex-1">
             <h4 class="title mb-4">Get new access token</h4>
             <p class="subtitle">
                 <a href="{{{  route('user.token.create', [$user->id])  }}}" class="button text-base">Generate</a>
             </p>
         </div>
-        @endif
+        
     </div>
    
    
