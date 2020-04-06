@@ -40,6 +40,7 @@ class AuthServiceProvider extends ServiceProvider
             }
             return false;
         });
+        
         Gate::define('view-job', function ($user, $job) {
             if ($user->id == $job->user_id) {
                 return true;
@@ -49,6 +50,7 @@ class AuthServiceProvider extends ServiceProvider
             }
             return false;
         });
+        
         Gate::define('edit-job', function ($user, $job) {
             if ($user->id == $job->user_id) {
                 return true;
@@ -58,6 +60,7 @@ class AuthServiceProvider extends ServiceProvider
             }
             return false;
         });
+        
         Gate::define('edit-team', function ($user, $team) {
             if ($user->onTeam($team)) {
                 return true;

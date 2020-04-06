@@ -29,13 +29,23 @@
         </div>
     </div>
 
-    @if ($user->api_key)
+   
     <div class="flex mb-8">
+        @if ($user->api_key)
         <div class="flex-1">
             <h4 class="title mb-2">Api Key</h4>
             <p class="subtitle">
                  <api-key-toggle apikey="{{ $user->api_key }}"></api-key-toggle>
             </p>
         </div>
+        <div class="flex-1">
+            <h4 class="title mb-4">Get new access token</h4>
+            <p class="subtitle">
+                <a href="{{{  route('user.token.create', [$user->id])  }}}" class="button text-base">Generate</a>
+            </p>
+        </div>
+        @endif
     </div>
-    @endif
+   
+   
+    

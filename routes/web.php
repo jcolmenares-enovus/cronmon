@@ -56,6 +56,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/user/{id}/edit', 'UserController@update')->name('user.update');
         Route::get('/job', 'CronjobController@index')->name('job.index');
         Route::get('/team', 'TeamController@index')->name('team.index');
+        Route::get('/user/{id}/token', 'UserController@createAccessToken')->name('user.token.create');
+        Route::post('/user/{id}/token/store', 'UserController@storeAccessToken')->name('user.token.store');
+        Route::get('/user/{id}/token/show', 'UserController@showAccessToken')->name('user.token.show');
+        Route::post('/user/{id}/token/{token}/revoke', 'UserController@revokeAccessToken')->name('user.token.revoke');
     });
 });
 

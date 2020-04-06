@@ -10,6 +10,7 @@ class ProfileController extends Controller
 {
     public function show()
     {
+        session()->forget('accessToken');
         return view('profile.show', ['user' => Auth::user()]);
     }
 
