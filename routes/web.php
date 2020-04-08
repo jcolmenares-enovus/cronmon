@@ -63,4 +63,3 @@ Route::group(['middleware' => 'auth'], function () {
     });
 });
 
-Route::post('/api/cronjob', 'Api\CronjobController@update')->name('api.cronjob.update');

@@ -17,21 +17,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/ping/{uuid}', 'ApiController@ping')->name('ping');
 Route::post('/ping/{uuid}', 'ApiController@ping')->name('ping');
 Route::post('/api/templates/{slug}', 'Api\TemplateController@store')->name('api.template.create_job');
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/api/cronjob', 'Api\CronjobController@index')->name('api.cronjob.index');
-    Route::get('/api/cronjob/{uuid}', 'Api\CronjobController@show')->name('api.cronjob.show');
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/api/cronjob', 'Api\CronjobController@index')->name('api.cronjob.index');
+    Route::get('/api/cronjob/{uuid}', 'Api\CronjobController@show')->name('api.cronjob.show');
+    Route::post('/api/cronjob/{uuid}', 'Api\CronjobController@update')->name('api.cronjob.update');
+    Route::post('/api/cronjob/{uuid}/silence', 'Api\CronjobController@silence')->name('api.cronjob.silence');
+    Route::post('/api/cronjob/{uuid}/silence', 'Api\CronjobController@unsilence')->name('api.cronjob.unsilence');
 });
-// POST job  -- create a new job - returns json of the job
-// POST job/{uuid}  -- update a job - returns json of the job
-// POST job/{uuid}/silence -- silence a job
-// POST job/{uuid}/unsilence -- unsilence a job
-// GET job/{uuid}?token={token} -- return json of specific job
+
 // DELETE job/{uuid}?token={token} -- delete a given job
 
-//Route::get('/user', function (Request $request) {
-//    return $request->user();
-//})->middleware('auth:api');
 
 Route::fallback(function(){
     return response()->json(['message' => 'Not Found.'], 404);

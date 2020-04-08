@@ -8,18 +8,26 @@ use App\Cronjob;
 use Illuminate\Http\Request;
 use App\Rules\ValidCronExpression;
 use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\UnauthorizedException;
 
 class CronjobController extends Controller
 {
-	public function index()
+	public function index(Request $request)
 	{
 		$user = Auth::user();
 		$cronjobs = $user->getAvailableJobs();
+
+		$request->validate([
+			'team_id' => 'nullable|numeric',
+		]);
+
+		if ($request->has('team_id')) {
+			$cronjobs = $cronjobs->where('team_id', $request->team_id);
+		}
+
 		return response()->json([
 			'count' => $cronjobs->count(), 
 			'data' => $cronjobs,
@@ -34,6 +42,52 @@ class CronjobController extends Controller
 
 		if ($user->id != $job->user_id) {
 			throw new UnauthorizedException('The Cronjob do not belongs to current user');
+		}
+
+		return response()->json([
+				'count' => 1,
+				'data' => $job->toArray(),
+			]);
+	}
+
+	public function silence($uuid)
+	{
+		$user = Auth::user();
+		$job = Cronjob::where('uuid', '=', $uuid)->firstOrFail();
+
+		if ($user->id != $job->user_id) {
+			throw new UnauthorizedException('The Cronjob do not belongs to current user');
+		}
+
+		try {
+			$job->update([
+				'is_silenced' => 0
+			]);
+		} catch (Exception $e) {
+			throw new ModelNotFoundException('Model not found');
+		}
+
+		return response()->json([
+				'count' => 1,
+				'data' => $job->toArray(),
+			]);
+	}
+
+	public function unsilence($uuid)
+	{
+		$user = Auth::user();
+		$job = Cronjob::where('uuid', '=', $uuid)->firstOrFail();
+
+		if ($user->id != $job->user_id) {
+			throw new UnauthorizedException('The Cronjob do not belongs to current user');
+		}
+
+		try {
+			$job->update([
+				'is_silenced' => 1
+			]);
+		} catch (Exception $e) {
+			throw new ModelNotFoundException('Model not found');
 		}
 
 		return response()->json([
