@@ -197,4 +197,9 @@ class User extends Authenticatable implements CanResetPassword
         $this->teams()->detach();
         $this->delete();
     }
+
+    public function routeNotificationForSlack($notification)
+    {
+        return env('SLACK_HOOK');
+    }
 }

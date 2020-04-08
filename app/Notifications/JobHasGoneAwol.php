@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Cronjob;
+use Illuminate\Notifications\Messages\SlackMessage;
 
 class JobHasGoneAwol extends Notification
 {
@@ -32,7 +33,7 @@ class JobHasGoneAwol extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'slack'];
     }
 
     /**
@@ -50,6 +51,16 @@ class JobHasGoneAwol extends Notification
             ->line('Job : ' . $this->job->name)
             ->line('Last Run : ' . $this->job->getLastRun() . ' (' . $this->job->getLastRunDiff() . ')')
             ->line('Schedule : ' . $this->job->getSchedule());
+    }
+
+    public function toSlack($notifiable)
+    {
+        $message = "Famous Hello World!";
+        
+        return (new SlackMessage)
+                ->from('Ghost', ':ghost:')
+                ->to('#channel-name')
+                ->content('Cron job "' . $this->job->name . '" has not run, check the status in ' . route('job.show', $this->job->id));
     }
 
     /**
